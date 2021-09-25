@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  
+  <link rel="stylesheet" href="styles.css">
+  <script src="javas.js"></script>
+
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+
+  <title>Frontend Mentor | IP Address Tracker</title>
+
+  <style>
+    .attribution { font-size: 11px; text-align: center; }
+    .attribution a { color: hsl(228, 45%, 44%); }
+  </style>
+</head>
+<body>
+
+	<div id="bkgrnd">
+		<img src="./images/pattern-bg.png" alt="background-image" id="top-image">
+	</div>
+	
+
+
+	<div id="txtcntnt">
+		<div id="heding">
+			IP Address Tracker
+		</div>
+		
+		<div id="srchbar"> 
+			<!-- <form method="get" id="nameform"> -->
+				<input type="text" placeholder="Search for any IP address or domain" name="srchip" id="srchip" value="">
+				<button type="submit" id="sbmt" onclick="findplace()" ><img src="./images/icon-arrow.svg" alt="sbmt" ></button>
+			<!-- </form> -->
+			
+			
+		</div>
+
+		<div id="rslts">
+			<div class="inrs id1">
+				IP Address
+				<div id="ipvalue">192.212.174.101</div>
+			</div>
+
+			<div class="inrs id1">
+				Location
+				<div id="locvalue">Brooklyn, NY 10001</div>
+			</div>
+			<div class="inrs id1">
+				Timezone
+				<div id="timvalue">UTC -05:00</div>  <!-- add offset value dynamically using the API -->
+			</div>
+			<div class="inrs">
+				ISP
+				<div id="ispvalue" style="margin-bottom: 10px;">SpaceX Starlink</div>
+			</div>
+		</div>
+	</div>
+	<div id="mapid"></div>
+  
+  <script>
+	  var mymap = L.map("mapid").setView([34.04915, -118.09462], 13);
+
+		L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+			maxZoom: 18,
+			id: 'mapbox/streets-v11',
+			// id: 'mapbox/satellite-v9',
+			tileSize: 512,
+			zoomOffset: -1,
+			accessToken: 'pk.eyJ1IjoiZG90ZG90NTY3IiwiYSI6ImNrdHZob2V5YjBrZGQycG1tbnVzbXNjMG8ifQ.kKgEla1NmPse16RScPyrpw'
+		}).addTo(mymap);
+		// var marker = L.marker([51.5, -0.09]).addTo(mymap);
+		
+
+		var greenIcon = L.icon({
+			iconUrl: '.\\images\\icon-location.svg',
+			
+			iconSize:     [25, 30], // size of the icon
+			iconAnchor:   [12.5, 15], // point of the icon which will correspond to marker's location
+			// popupAnchor:  [-1500, -1500] // point from which the popup should open relative to the iconAnchor
+		});
+		var marker = L.marker([34.04915, -118.09462], {icon: greenIcon}).addTo(mymap);
+
+
+		// ry clicking on the map and you will see the coordinates in a popup
+		var popup = L.popup();
+		function onMapClick(e) {
+			popup
+				.setLatLng(e.latlng)
+				.setContent("You clicked the map at " + e.latlng.toString())
+				.openOn(mymap);
+		}
+		mymap.on('click', onMapClick);
+
+
+
+  </script>
+  <div class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+    Coded by <a href="#">RESHABH</a>.
+  </div>
+</body>
+</html>
